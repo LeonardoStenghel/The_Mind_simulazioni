@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from icecream import ic 
 import sys
 import copy 
 
@@ -8,7 +7,6 @@ from IPython import get_ipython
 
 print("\033[H\033[J"); 
 get_ipython().run_line_magic('matplotlib', 'qt')
-
 
 
 # I numeri sulle carte vanno da 1 a N_max
@@ -20,13 +18,10 @@ n_gioc = 2
 # Ogni giocatore ha in mano (n_carte_mani) carte
 n_carte_mano = 5
 
-# Array controllo frequenze carte
-control = np.zeros(N_max)
-
 n_carte_tot = n_gioc * n_carte_mano
 
 
-#%% Calcoli
+## Calcoli
 
 # Variabili varie
 
@@ -50,14 +45,8 @@ g_r = np.zeros(N_max)
 N_rip = 10000
 
 
-# Ciclo principale
+## Ciclo principale
 for index in range(N_rip):
-# while True :
-    
-    # N_rip += 1
-        
-    # if  ( N_rip > 10000 and  ( (np.std(control) / np.mean(control)) < 0.01) ):
-    #     break
     
     # Mostra l'avanzamento del programma
     if N_rip % 10000 == 0:
@@ -78,14 +67,7 @@ for index in range(N_rip):
     
     carte_tot.sort()
 
-    # Array controllo
-    for x in carte_tot:
-        control[x-1] += 1
         
-    
-
-
-
     # Conta, per ogni mano, quante carte dell'altra sono a differenza +-1 e +-2
     # Inoltre, calcola g(r) esterna
     for i in range(0, n_gioc):
@@ -140,8 +122,8 @@ for index in range(N_rip):
         media_2 += delta**2
         
 
-#%% Stampa risultati
 
+## Stampa risultati
 
 control /= N_rip
 
@@ -182,7 +164,7 @@ print('Max salto medio esterno: %.3f' %(sum_max_salto_ex / (n_gioc * N_rip) ) )
 print('Dev_std max salto esterno: %.3f' %( np.sqrt( sum2_max_ex/(n_gioc * N_rip) - sum_max_salto_ex**2 / (n_gioc * N_rip)**2 )) + '\n')
 
 
-#%% Grafici
+## Grafici
 
 delta_n = np.linspace(1, 100, num=100)
 
@@ -199,31 +181,6 @@ plt.xticks( fontsize = 14, rotation = 0)
 plt.yticks( fontsize = 14, rotation = 0)
 plt.show()
 
-
-# fig2 = plt.figure( figsize = (12,6), dpi = 140)                        
-
-# plt.title('\"Probabilità\" $interna$ in funzione del salto', fontweight = "bold", fontsize = 18)
-# plt.xlabel(' $\Delta$n ', fontsize = 14, rotation = 0)  
-# plt.ylabel(' Prob ', fontweight = "bold", fontsize = 14, rotation = 90)
-# plt.legend( loc = 'upper right', frameon = True, framealpha = 1, fancybox = 0, edgecolor = 'k')
-# plt.grid(True, color = 'k', alpha = 0.3)
-# plt.xticks( fontsize = 14, rotation = 0)
-# plt.yticks( fontsize = 14, rotation = 0)
-
-
-# fig2 = plt.figure( figsize = (8,6), dpi = 140)                        
-# plt.plot(delta_n[prob_ex > 0 and prob_in > 0], np.log(prob_ex[prob_ex > 0 and prob_in > 0]), linewidth = 0, color = 'r', linestyle = "none", marker = '.', markersize = 5, label ='Esterna ') 
-# plt.plot(delta_n[prob_ex > 0 and prob_in > 0], np.log(prob_in[prob_ex > 0 and prob_in > 0]), linewidth = 0, color = 'b', linestyle = "none", marker = '.', markersize = 5, label ='Interna ') 
-
-
-# plt.title('Log frequenza relativa in funzione del salto', fontweight = "bold", fontsize = 18)
-# plt.xlabel(' $\Delta$n ', fontsize = 14, rotation = 0)    #  
-# plt.ylabel(' Log(freq) ', fontweight = "bold", fontsize = 14, rotation = 90)
-# plt.legend( loc = 'upper right', frameon = True, framealpha = 1, fancybox = 0, edgecolor = 'k')
-# plt.grid(True, color = 'k', alpha = 0.3)
-# plt.xticks( fontsize = 14, rotation = 0)
-# plt.yticks( fontsize = 14, rotation = 0)
-
 fig3 = plt.figure( figsize = (8,6), dpi = 140)                        
 plt.plot(delta_n[delta_n % 1 == 0], g_r[delta_n % 1 == 0], linewidth = 0, color = 'b', linestyle = "none", marker = '.', markersize = 8, label ='g(r)') 
 
@@ -235,10 +192,4 @@ plt.grid(True, color = 'k', alpha = 0.3)
 plt.xticks( fontsize = 14, rotation = 0)
 plt.yticks( fontsize = 14, rotation = 0)
 plt.show()
-
-
-
-#%% TODO: g(r) tra le carte; array controllo per gestire; 
-
-
 
